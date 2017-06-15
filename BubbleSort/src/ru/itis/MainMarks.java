@@ -50,9 +50,14 @@ public class MainMarks {
                 {3, 4, 5, 4, 5},
                 {1, 5, 1, 4, 3}};
 
+        // четные строки сортируются пузырьком
+        // нечетные - вставками
         for (int i = 0; i < marks.length; i++) {
-            // вызов процедуры, marks[i] - аргумент
-            insertionSort(marks[i]);
+            if (i % 2 == 0) {
+                bubbleSort(marks[i]);
+            } else {
+                insertionSort(marks[i]);
+            }
         }
         // marks - аргумент
         showMatrix(marks);
