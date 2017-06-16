@@ -70,12 +70,37 @@ public class Main {
         char inputBrackets[] = "((){([])}{}<>)".toCharArray();
         int isFlag = 0;
         for (int i = 0; i < inputBrackets.length; i++) {
-            if (inputBrackets[i] == '(') {
-                push(stack, '(');
-            } else if ((count != 0) && inputBrackets[i] == ')') {
-                pop(stack);
+            // смотрим текущю скобку
+            // если она отркывающая
+            if (inputBrackets[i] == '(' ||
+                    inputBrackets[i] == '{' ||
+                    inputBrackets[i] == '[' ||
+                    inputBrackets[i] == '<') {
+                // кладем в стек
+                push(stack, inputBrackets[i]);
+            }
+            // если она не открывающаяся, то проверяем
+            // есть ли вообще в стеке элементы
+            else if (count != 0) {
+                // забираем из стека последнюю скобку
+                char lastBracket = pop(stack);
+                // если любое из этих условий соблюдено - идем дальше
+                if (inputBrackets[i] == '}' && lastBracket == '{') {
+                    continue;
+                }
+                else if (inputBrackets[i] == '>' && lastBracket == '<') {
+                    continue;
+                }
+                else if (inputBrackets[i] == ']' && lastBracket == '[') {
+                    continue;
+                }
+                else if (inputBrackets[i] == ')' && lastBracket == '(') {
+                    continue;
+                } else {
+                    break;
+                }
             } else {
-                // если стек пустой и у вас открывающаяся скобка
+                // если стек пустой
                 isFlag = 1;
                 break;
             }
