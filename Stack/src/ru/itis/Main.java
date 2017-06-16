@@ -67,7 +67,7 @@ public class Main {
         // с конца
         char stack[] = new char[10];
 
-        char inputBrackets[] = "(()()(()))".toCharArray();
+        char inputBrackets[] = "((){([])}{}<>)".toCharArray();
         int isFlag = 0;
         for (int i = 0; i < inputBrackets.length; i++) {
             if (inputBrackets[i] == '(') {
