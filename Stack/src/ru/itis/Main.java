@@ -68,5 +68,23 @@ public class Main {
         char stack[] = new char[10];
 
         char inputBrackets[] = "(()()(()))".toCharArray();
+        int isFlag = 0;
+        for (int i = 0; i < inputBrackets.length; i++) {
+            if (inputBrackets[i] == '(') {
+                push(stack, '(');
+            } else if ((count != 0) && inputBrackets[i] == ')') {
+                pop(stack);
+            } else {
+                // если стек пустой и у вас открывающаяся скобка
+                isFlag = 1;
+                break;
+            }
+        }
+
+        if (isFlag == 1 || count != 0) {
+            System.out.println("Не правильная последовательность");
+        } else {
+            System.out.println("Правильная");
+        }
     }
 }
