@@ -56,8 +56,14 @@ public class ArrayList {
         }
     }
 
+    public void remove(int index) {
+
+    }
+
     public static ArrayList merge(ArrayList a, ArrayList b) {
         return null;
     }
+
+
 
 }
