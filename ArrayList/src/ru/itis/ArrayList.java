@@ -68,6 +68,10 @@ public class ArrayList {
         return -1;
     }
 
+    public void addToBegin(int element) {
+
+    }
+    
     public void print() {
         for (int i = 0; i < count; i++) {
             System.out.println(elements[i]);
