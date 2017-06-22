@@ -44,8 +44,20 @@ public class ArrayList {
     [2][3][7][5][6][0]
      */
     public void add(int element, int index) {
-        
+        if (count < MAX_ARRAY_SIZE &&
+                index < count) {
+            for (int i = count; i > index; i--) {
+                elements[i] = elements[i - 1];
+            }
+            elements[index] = element;
+            count++;
+        } else {
+            System.err.println("Все плохо");
+        }
     }
 
+    public static ArrayList merge(ArrayList a, ArrayList b) {
+        return null;
+    }
 
 }
