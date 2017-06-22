@@ -64,6 +64,13 @@ public class ArrayList {
         return null;
     }
 
+    public int find(int element) {
+        return -1;
+    }
 
-
+    public void print() {
+        for (int i = 0; i < count; i++) {
+            System.out.println(elements[i]);
+        }
+    }
 }
