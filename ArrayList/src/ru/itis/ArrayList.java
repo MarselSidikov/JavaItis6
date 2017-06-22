@@ -37,5 +37,15 @@ public class ArrayList {
         }
     }
 
+    /*
+    Пусть есть список
+    [2][3][5][6][0][0]
+    add(7,2);
+    [2][3][7][5][6][0]
+     */
+    public void add(int element, int index) {
+        
+    }
+
 
 }
