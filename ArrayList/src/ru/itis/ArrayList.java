@@ -71,7 +71,7 @@ public class ArrayList {
     public void addToBegin(int element) {
 
     }
-    
+
     public void print() {
         for (int i = 0; i < count; i++) {
             System.out.println(elements[i]);
