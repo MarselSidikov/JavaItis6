@@ -9,5 +9,7 @@ public class Main {
         System.out.println(r.area());
         Square s = new Square(4);
         System.out.println(s.area());
+        Triangle t = new Triangle(3, 4, 5);
+        System.out.println(t.area());
     }
 }
