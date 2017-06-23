@@ -1,6 +1,6 @@
 package ru.itis;
 
-public class Triangle {
+public class Triangle extends Figure {
     private int a;
     private int b;
     private int c;

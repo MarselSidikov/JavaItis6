@@ -1,7 +1,7 @@
 package ru.itis;
 
 
-public class Rectangle {
+public class Rectangle extends Figure {
     private int a;
     private int b;
 
@@ -14,7 +14,12 @@ public class Rectangle {
         }
     }
 
-    public int area() {
+    // метод area есть в классе Figure, но мы
+    // его здесь переопределили
+    // то есть area есть и у треугольника
+    // и у прямоугольника, но они
+    // реализованы по-разному
+    public double area() {
         return a * b;
     }
 }
