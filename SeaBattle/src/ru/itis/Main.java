@@ -1,5 +1,7 @@
 package ru.itis;
 
+import java.util.Scanner;
+
 public class Main {
 
     public static void main(String[] args) {
@@ -26,5 +28,14 @@ public class Main {
 		field.addShip(i);
 		field.addShip(j);
 		field.showOnConsole();
+
+		Player player = new Player("Amir", field);
+		Scanner scanner = new Scanner(System.in);
+		while (true) {
+			int x = scanner.nextInt();
+			int y = scanner.nextInt();
+			System.out.println(player.shot(x, y));
+			field.showOnConsole();
+		}
     }
 }
