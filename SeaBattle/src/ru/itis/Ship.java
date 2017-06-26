@@ -16,8 +16,8 @@ public class Ship {
     private int numberOfDecks;
 
     public Ship(int x, int y, boolean isHorizontal, ShipType type) {
-        X = x;
-        Y = y;
+        X = x - 1;
+        Y = y - 1;
         this.isHorizontal = isHorizontal;
         this.type = type;
         this.numberOfDecks = type.ordinal() + 1;
