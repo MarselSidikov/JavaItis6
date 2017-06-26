@@ -26,6 +26,5 @@ public class Main {
 		field.addShip(i);
 		field.addShip(j);
 		field.showOnConsole();
-
     }
 }

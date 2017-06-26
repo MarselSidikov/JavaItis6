@@ -35,25 +35,25 @@ public class PlayingField {
         }
     }
 
-    public ShipState shot(int x, int y) {
-        x = x - 1;
-        y = y - 1;
-
-        for (int i = 0; i < ships.size(); i++) {
-            Ship ship = ships.get(i);
-            int shipX = ship.getX();
-            int shipY = ship.getY();
-            int numberOfDecks = ship.getNumberOfDecks();
-            
-        }
-        if () {
-            return ShipState.MISS;
-        } else if () {
-            return ShipState.KILL;
-        } else {
-            return ShipState.WOUND;
-        }
-    }
+//    public ShipState shot(int x, int y) {
+//        x = x - 1;
+//        y = y - 1;
+//
+//        for (int i = 0; i < ships.size(); i++) {
+//            Ship ship = ships.get(i);
+//            int shipX = ship.getX();
+//            int shipY = ship.getY();
+//            int numberOfDecks = ship.getNumberOfDecks();
+//
+//        }
+//        if () {
+//            return ShipState.MISS;
+//        } else if () {
+//            return ShipState.KILL;
+//        } else {
+//            return ShipState.WOUND;
+//        }
+//    }
 
     public void showOnConsole() {
         for (int i = 0; i < FIELD_SIZE; i++) {
