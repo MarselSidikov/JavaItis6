@@ -1,4 +1,4 @@
-package ru.itis;
+package ru.itis.game;
 
 public class PlayingField {
     // список состояний выстрела - результат на выстрел
@@ -74,5 +74,9 @@ public class PlayingField {
             }
             System.out.println();
         }
+    }
+
+    public Ship[][] getField() {
+        return field;
     }
 }
