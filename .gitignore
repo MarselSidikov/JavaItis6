@@ -1,5 +1,5 @@
 *.class
-*.out
+
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
@@ -22,9 +22,9 @@ effective-pom.xml
 effective-settings.xml
 /*/.gwt/
 .cache
+.idea/
+*.iml
 *.log
 *.lck
 *.jar
-*.idea
-*.iml
 */dependency-reduced-pom.xml

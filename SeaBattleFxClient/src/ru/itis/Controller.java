@@ -18,6 +18,12 @@ public class Controller {
     @FXML
     private Rectangle destroyerRect;
 
+    @FXML
+    private Rectangle cruiserRect;
+
+    @FXML
+    private Rectangle battleshipRect;
+
     private PlayingField field;
 
     private Rectangle rectanglesField[][];
@@ -35,6 +41,14 @@ public class Controller {
 
         destroyerRect.setOnMouseClicked(event -> {
             currentType = Ship.ShipType.Destroyer;
+        });
+
+        cruiserRect.setOnMouseClicked(event -> {
+            currentType = Ship.ShipType.Cruiser;
+        });
+
+        battleshipRect.setOnMouseClicked(event -> {
+            currentType = Ship.ShipType.Battleship;
         });
 
 //        Ship a = new Ship(1, 5, true, Ship.ShipType.Boat);
@@ -81,8 +95,14 @@ public class Controller {
                     rectangle.setOnMouseClicked(event -> {
                         rectanglesField[Y][X].setFill(Color.GREY);
                         if (currentType == Ship.ShipType.Destroyer) {
-
                             rectanglesField[Y][X + 1].setFill(Color.GREY);
+                        } else if (currentType == Ship.ShipType.Cruiser) {
+                            rectanglesField[Y][X + 1].setFill(Color.GREY);
+                            rectanglesField[Y][X + 2].setFill(Color.GREY);
+                        } else if (currentType == Ship.ShipType.Battleship) {
+                            rectanglesField[Y][X + 1].setFill(Color.GREY);
+                            rectanglesField[Y][X + 2].setFill(Color.GREY);
+                            rectanglesField[Y][X + 3].setFill(Color.GREY);
                         }
                     });
                 } else {
