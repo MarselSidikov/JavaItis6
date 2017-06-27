@@ -23,10 +23,10 @@
             <Rectangle fx:id="cruiserRect" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="40.0" layoutX="14.0" layoutY="465.0" stroke="BLACK" strokeType="INSIDE" width="40.0" />
             <Rectangle fx:id="destroyerRect" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="40.0" layoutX="14.0" layoutY="515.0" stroke="BLACK" strokeType="INSIDE" width="40.0" />
             <Rectangle fx:id="boatRect" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="40.0" layoutX="14.0" layoutY="565.0" stroke="BLACK" strokeType="INSIDE" width="40.0" />
-            <Label layoutX="63.0" layoutY="422.0" text="1" />
-            <Label layoutX="63.0" layoutY="472.0" text="2" />
-            <Label layoutX="63.0" layoutY="522.0" text="3" />
-            <Label layoutX="63.0" layoutY="572.0" text="4" />
+            <Label fx:id="labelBattleshipCount" layoutX="63.0" layoutY="422.0" text="1" />
+            <Label fx:id="labelCruiserCount" layoutX="63.0" layoutY="472.0" text="2" />
+            <Label fx:id="labelDestroyerCount" layoutX="63.0" layoutY="522.0" text="3" />
+            <Label fx:id="labelBoatCount" layoutX="63.0" layoutY="572.0" text="4" />
             <Label layoutX="29.0" layoutY="422.0" text="4" />
             <Label layoutX="29.0" layoutY="472.0" text="3" />
             <Label layoutX="29.0" layoutY="522.0" text="2" />

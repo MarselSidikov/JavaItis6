@@ -1,6 +1,7 @@
 package ru.itis;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -24,6 +25,8 @@ public class Controller {
     @FXML
     private Rectangle battleshipRect;
 
+    @FXML
+    private Label labelBattleshipCount;
     private PlayingField field;
 
     private Rectangle rectanglesField[][];
@@ -79,22 +82,38 @@ public class Controller {
 
     }
 
+    // рисуем поле игрока
     private void drawPlayerField() {
+        // начальные отступы
         int x = 40;
         int y = 40;
+        // бежим по всем квардратам поля
+        // по строкам
         for (int i = 0; i < field.getField().length; i++) {
+            // по столбцам
             for (int j = 0; j < field.getField().length; j++) {
+                // если корабля в той позиции нет
                 if (field.getField()[i][j] == null) {
+                    // создаем в указанной позиции голубой квадрат
                     Rectangle rectangle = new Rectangle(y * j, x * i, 40, 40);
+                    // сделали каемку (C) Амир
                     rectangle.setStroke(Color.BLACK);
+                    // закрасили квадрат
                     rectangle.setFill(Color.AQUA);
+                    // засуну квадрат на форму
                     pane.getChildren().add(rectangle);
+                    // запомнили координаты квадрата
                     final int X = j;
                     final int Y = i;
+                    // положили квадрат в матрицу квадратов
                     rectanglesField[i][j] = rectangle;
+                    // для текущего квадрата назначили событие при нажатии кнопкой мыши
                     rectangle.setOnMouseClicked(event -> {
+                        // закрасили квадрат в серый
                         rectanglesField[Y][X].setFill(Color.GREY);
-
+                        // в зависимости от того, какая кнопка была нажата
+                        // и от того, какой тип корабля выбран
+                        // рисуем остальные палубы
                         if (event.getButton().toString().equals("PRIMARY")) {
                             if (currentType == Ship.ShipType.Destroyer) {
                                 rectanglesField[Y][X + 1].setFill(Color.GREY);
