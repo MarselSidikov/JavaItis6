@@ -27,6 +27,10 @@
             <Label layoutX="81.0" layoutY="475.0" text="2" />
             <Label layoutX="81.0" layoutY="525.0" text="3" />
             <Label layoutX="81.0" layoutY="575.0" text="4" />
+            <Label layoutX="47.0" layoutY="425.0" text="4" />
+            <Label layoutX="47.0" layoutY="475.0" text="3" />
+            <Label layoutX="47.0" layoutY="525.0" text="2" />
+            <Label layoutX="47.0" layoutY="575.0" text="1" />
          </children></AnchorPane>
    </children>
 </GridPane>
