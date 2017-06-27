@@ -17,6 +17,6 @@
       <RowConstraints />
    </rowConstraints>
    <children>
-      <AnchorPane fx:id="pane" prefHeight="400.0" prefWidth="400.0" />
+      <AnchorPane fx:id="pane" prefHeight="1000.0" prefWidth="1000.0" />
    </children>
 </GridPane>

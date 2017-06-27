@@ -12,6 +12,9 @@ public class Controller {
     @FXML
     private AnchorPane pane;
 
+    private PlayingField field;
+    private PlayingField enemyField;
+
     @FXML
     public void initialize() {
         Ship a = new Ship(1, 5, true, Ship.ShipType.Boat);
@@ -25,7 +28,7 @@ public class Controller {
         Ship z = new Ship(9, 6, false, Ship.ShipType.Cruiser);
         Ship k = new Ship(10, 3, true, Ship.ShipType.Boat);
 
-        PlayingField field = new PlayingField();
+        field = new PlayingField();
         field.addShip(a);
         field.addShip(b);
         field.addShip(c);
@@ -37,6 +40,12 @@ public class Controller {
         field.addShip(z);
         field.addShip(k);
 
+        drawPlayerField();
+        drawEnemyField();
+
+    }
+
+    private void drawPlayerField() {
         int x = 40;
         int y = 40;
         for (int i = 0; i < field.getField().length; i++) {
@@ -54,7 +63,21 @@ public class Controller {
                 }
             }
         }
+    }
 
-
+    private void drawEnemyField() {
+        int x = 40;
+        int y = 40;
+        for (int i = 0; i < field.getField().length; i++) {
+            for (int j = 0; j < field.getField().length; j++) {
+                    Rectangle rectangle = new Rectangle(y * j + 440,x * i,40, 40);
+                    rectangle.setStroke(Color.BLACK);
+                    rectangle.setFill(Color.AQUA);
+                    rectangle.setOnMouseClicked(event -> {
+                        rectangle.setFill(Color.RED);
+                    });
+                    pane.getChildren().add(rectangle);
+            }
+        }
     }
 }
