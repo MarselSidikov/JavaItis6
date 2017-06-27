@@ -94,16 +94,31 @@ public class Controller {
                     rectanglesField[i][j] = rectangle;
                     rectangle.setOnMouseClicked(event -> {
                         rectanglesField[Y][X].setFill(Color.GREY);
-                        if (currentType == Ship.ShipType.Destroyer) {
-                            rectanglesField[Y][X + 1].setFill(Color.GREY);
-                        } else if (currentType == Ship.ShipType.Cruiser) {
-                            rectanglesField[Y][X + 1].setFill(Color.GREY);
-                            rectanglesField[Y][X + 2].setFill(Color.GREY);
-                        } else if (currentType == Ship.ShipType.Battleship) {
-                            rectanglesField[Y][X + 1].setFill(Color.GREY);
-                            rectanglesField[Y][X + 2].setFill(Color.GREY);
-                            rectanglesField[Y][X + 3].setFill(Color.GREY);
+
+                        if (event.getButton().toString().equals("PRIMARY")) {
+                            if (currentType == Ship.ShipType.Destroyer) {
+                                rectanglesField[Y][X + 1].setFill(Color.GREY);
+                            } else if (currentType == Ship.ShipType.Cruiser) {
+                                rectanglesField[Y][X + 1].setFill(Color.GREY);
+                                rectanglesField[Y][X + 2].setFill(Color.GREY);
+                            } else if (currentType == Ship.ShipType.Battleship) {
+                                rectanglesField[Y][X + 1].setFill(Color.GREY);
+                                rectanglesField[Y][X + 2].setFill(Color.GREY);
+                                rectanglesField[Y][X + 3].setFill(Color.GREY);
+                            }
+                        } else {
+                            if (currentType == Ship.ShipType.Destroyer) {
+                                rectanglesField[Y+1][X].setFill(Color.GREY);
+                            } else if (currentType == Ship.ShipType.Cruiser) {
+                                rectanglesField[Y+1][X].setFill(Color.GREY);
+                                rectanglesField[Y+2][X].setFill(Color.GREY);
+                            } else if (currentType == Ship.ShipType.Battleship) {
+                                rectanglesField[Y+1][X].setFill(Color.GREY);
+                                rectanglesField[Y+2][X].setFill(Color.GREY);
+                                rectanglesField[Y+3][X].setFill(Color.GREY);
+                            }
                         }
+
                     });
                 } else {
                     Rectangle rectangle = new Rectangle(y * j, x * i, 40, 40);
