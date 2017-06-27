@@ -25,4 +25,6 @@ effective-settings.xml
 *.log
 *.lck
 *.jar
+*.idea
+*.iml
 */dependency-reduced-pom.xml
