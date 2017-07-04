@@ -156,20 +156,16 @@ public class Controller {
         if (isHorizontal) {
             for (int i = y - 1; i < y + 2; i++) {
                 for (int j = x - 1; j < x + shipLength + 1; j++) {
-                    if (i < 10 && i >= 0 && j < 10 && j >= 0) {
-                        if (!rectanglesField[i][j].getFill().toString().equals("0x00ffffff")) {
-                            return false;
-                        }
+                    if (isCorrectFor(x, shipLength, i, j)) {
+                        return false;
                     }
                 }
             }
         } else {
-            for (int j = x - 1; j < x + shipLength + 1; j++) {
-                for (int i = y - 1; i < y + 2; i++) {
-                    if (i < 10 && i >= 0 && j < 10 && j >= 0) {
-                        if (!rectanglesField[j][i].getFill().toString().equals("0x00ffffff")) {
-                            return false;
-                        }
+            for (int i = y - 1; i < y + shipLength + 1; i++) {
+                for (int j = x - 1; j < x + 2; j++) {
+                    if (isCorrectFor(y, shipLength, i, j)) {
+                        return false;
                     }
                 }
             }
@@ -177,6 +173,19 @@ public class Controller {
 
         return true;
     }
+
+    private boolean isCorrectFor(int position, int shipLength, int i, int j) {
+        if (i < 10 && i >= 0 && j < 10 && j >= 0) {
+            if (position + shipLength > 10) {
+                return true;
+            }
+            if (!rectanglesField[i][j].getFill().toString().equals("0x00ffffff")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     private Rectangle createRectangle(int x, int y, int i, int j) {
         // создаем в указанной позиции голубой квадрат
