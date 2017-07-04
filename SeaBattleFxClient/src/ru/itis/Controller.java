@@ -84,14 +84,7 @@ public class Controller {
             for (int j = 0; j < field.getField().length; j++) {
                 // если корабля в той позиции нет
                 if (field.getField()[i][j] == null) {
-                    // создаем в указанной позиции голубой квадрат
-                    Rectangle rectangle = new Rectangle(y * j, x * i, 40, 40);
-                    // сделали каемку (C) Амир
-                    rectangle.setStroke(Color.BLACK);
-                    // закрасили квадрат
-                    rectangle.setFill(Color.AQUA);
-                    // засуну квадрат на форму
-                    pane.getChildren().add(rectangle);
+                    Rectangle rectangle = createRectangle(x, y, i, j);
                     // запомнили координаты квадрата
                     final int X = j;
                     final int Y = i;
@@ -99,45 +92,52 @@ public class Controller {
                     rectanglesField[i][j] = rectangle;
                     // для текущего квадрата назначили событие при нажатии кнопкой мыши
                     rectangle.setOnMouseClicked(event -> {
-                        if (is(Ship.ShipType.Boat)) {
-                            int currentBoatCount = Integer.parseInt(labelBoatCount.getText());
-                            if (isCorrectShipsCount(currentBoatCount)) {
-                                drawBoat(X, Y);
-                                currentBoatCount -= 1;
-                                labelBoatCount.setText(currentBoatCount + "");
-                            }
-                        } else if (is(Ship.ShipType.Destroyer)) {
-                            int currentDestroyerCount = Integer.parseInt(labelDestroyerCount.getText());
-                            if (isCorrectShipsCount(currentDestroyerCount)) {
-                                if (isLeftButton(event)) {
-                                    drawDestroyerHorizontal(X, Y);
-                                } else {
-                                    drawDestroyerVertical(X, Y);
+                        if (isCorrectPosition(X, Y, currentType.ordinal(), isLeftButton(event))) {
+                            switch (currentType) {
+                                case Boat: {
+                                    int currentBoatCount = Integer.parseInt(labelBoatCount.getText());
+                                    if (isCorrectShipsCount(currentBoatCount)) {
+                                        drawBoat(X, Y);
+                                        currentBoatCount -= 1;
+                                        labelBoatCount.setText(currentBoatCount + "");
+                                    }
                                 }
-                                currentDestroyerCount -= 1;
-                                labelDestroyerCount.setText(currentDestroyerCount + "");
-                            }
-                        } else if (is(Ship.ShipType.Cruiser)) {
-                            int currentCruiserCount = Integer.parseInt(labelCruiserCount.getText());
-                            if (isCorrectShipsCount(currentCruiserCount)) {
-                                if (isLeftButton(event)) {
-                                    drawCruiserHorizontal(X, Y);
-                                } else {
-                                    drawCruiserVertical(X, Y);
+                                case Destroyer: {
+                                    int currentDestroyerCount = Integer.parseInt(labelDestroyerCount.getText());
+                                    if (isCorrectShipsCount(currentDestroyerCount)) {
+                                        if (isLeftButton(event)) {
+                                            drawDestroyerHorizontal(X, Y);
+                                        } else {
+                                            drawDestroyerVertical(X, Y);
+                                        }
+                                        currentDestroyerCount -= 1;
+                                        labelDestroyerCount.setText(currentDestroyerCount + "");
+                                    }
                                 }
-                                currentCruiserCount -= 1;
-                                labelCruiserCount.setText(currentCruiserCount + "");
-                            }
-                        } else if (is(Ship.ShipType.Battleship)) {
-                            int currentBattleshipCount = Integer.parseInt(labelBattleshipCount.getText());
-                            if (isCorrectShipsCount(currentBattleshipCount)) {
-                                if (isLeftButton(event)) {
-                                    drawBattleshipHorizontal(X, Y);
-                                } else {
-                                    drawBattleshipVertical(X, Y);
+                                case Cruiser: {
+                                    int currentCruiserCount = Integer.parseInt(labelCruiserCount.getText());
+                                    if (isCorrectShipsCount(currentCruiserCount)) {
+                                        if (isLeftButton(event)) {
+                                            drawCruiserHorizontal(X, Y);
+                                        } else {
+                                            drawCruiserVertical(X, Y);
+                                        }
+                                        currentCruiserCount -= 1;
+                                        labelCruiserCount.setText(currentCruiserCount + "");
+                                    }
                                 }
-                                currentBattleshipCount -= 1;
-                                labelBattleshipCount.setText(currentBattleshipCount + "");
+                                case Battleship: {
+                                    int currentBattleshipCount = Integer.parseInt(labelBattleshipCount.getText());
+                                    if (isCorrectShipsCount(currentBattleshipCount)) {
+                                        if (isLeftButton(event)) {
+                                            drawBattleshipHorizontal(X, Y);
+                                        } else {
+                                            drawBattleshipVertical(X, Y);
+                                        }
+                                        currentBattleshipCount -= 1;
+                                        labelBattleshipCount.setText(currentBattleshipCount + "");
+                                    }
+                                }
                             }
                         }
                         //field.addShip(new Ship(X, Y, true, currentType));
@@ -148,9 +148,40 @@ public class Controller {
         }
     }
 
-    private boolean is(Ship.ShipType type) {
-        return currentType == type;
+    private boolean isCorrectPosition(int x, int y, int shipLength, boolean isHorizontal) {
+        if (isHorizontal) {
+            for (int i = x - 1; i < shipLength + 1; i++) {
+                for (int j = y - 1; j < y + 1; j++) {
+                    if (rectanglesField[i][j] != null) {
+                        return false;
+                    }
+                }
+            }
+        } else {
+            for (int j = y - 1; j < y + 1; j++) {
+                for (int i = x - 1; i < shipLength + 1; i++) {
+                    if (rectanglesField[j][i] != null) {
+                        return false;
+                    }
+                }
+            }
+        }
+
+        return true;
     }
+
+    private Rectangle createRectangle(int x, int y, int i, int j) {
+        // создаем в указанной позиции голубой квадрат
+        Rectangle rectangle = new Rectangle(y * j, x * i, 40, 40);
+        // сделали каемку (C) Амир
+        rectangle.setStroke(Color.BLACK);
+        // закрасили квадрат
+        rectangle.setFill(Color.AQUA);
+        // засуну квадрат на форму
+        pane.getChildren().add(rectangle);
+        return rectangle;
+    }
+
     private boolean isLeftButton(MouseEvent event) {
         return event.getButton().toString().equals("PRIMARY");
     }
