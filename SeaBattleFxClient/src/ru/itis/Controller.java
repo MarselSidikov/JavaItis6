@@ -28,6 +28,15 @@ public class Controller {
     @FXML
     private Label labelBattleshipCount;
 
+    @FXML
+    private Label labelCruiserCount;
+
+    @FXML
+    private Label labelDestroyerCount;
+
+    @FXML
+    private Label labelBoatCount;
+
     private PlayingField field;
 
     private Rectangle rectanglesField[][];
@@ -89,46 +98,64 @@ public class Controller {
                     rectanglesField[i][j] = rectangle;
                     // для текущего квадрата назначили событие при нажатии кнопкой мыши
                     rectangle.setOnMouseClicked(event -> {
-                        if (event.getButton().toString().equals("PRIMARY")) {
-                            if (currentType == Ship.ShipType.Boat) {
+                        if (currentType == Ship.ShipType.Boat) {
+                            int currentBoatCount = Integer.parseInt(labelBoatCount.getText());
+                            if (currentBoatCount > 0) {
                                 rectanglesField[Y][X].setFill(Color.GREY);
+                                currentBoatCount -= 1;
+                                labelBoatCount.setText(currentBoatCount + "");
                             }
-                            else if (currentType == Ship.ShipType.Destroyer) {
-                                rectanglesField[Y][X].setFill(Color.GREY);
-                                rectanglesField[Y][X + 1].setFill(Color.GREY);
-                            } else if (currentType == Ship.ShipType.Cruiser) {
-                                rectanglesField[Y][X].setFill(Color.GREY);
-                                rectanglesField[Y][X + 1].setFill(Color.GREY);
-                                rectanglesField[Y][X + 2].setFill(Color.GREY);
-                            } else if (currentType == Ship.ShipType.Battleship) {
-                                rectanglesField[Y][X].setFill(Color.GREY);
-                                rectanglesField[Y][X + 1].setFill(Color.GREY);
-                                rectanglesField[Y][X + 2].setFill(Color.GREY);
-                                rectanglesField[Y][X + 3].setFill(Color.GREY);
+                        } else if (currentType == Ship.ShipType.Destroyer) {
+                            int currentDestroyerCount = Integer.parseInt(labelDestroyerCount.getText());
+                            if (currentDestroyerCount > 0) {
+                                if (event.getButton().toString().equals("PRIMARY")) {
+                                    rectanglesField[Y][X].setFill(Color.GREY);
+                                    rectanglesField[Y][X + 1].setFill(Color.GREY);
+                                } else {
+                                    rectanglesField[Y][X].setFill(Color.GREY);
+                                    rectanglesField[Y + 1][X].setFill(Color.GREY);
+
+                                }
+                                currentDestroyerCount -= 1;
+                                labelDestroyerCount.setText(currentDestroyerCount + "");
                             }
-                            field.addShip(new Ship(X, Y, true, currentType));
-                        } else {
-                            if (currentType == Ship.ShipType.Boat) {
-                                rectanglesField[Y][X].setFill(Color.GREY);
+                        } else if (currentType == Ship.ShipType.Cruiser) {
+                            int currentCruiserCount = Integer.parseInt(labelCruiserCount.getText());
+
+                            if (currentCruiserCount > 0) {
+                                if (event.getButton().toString().equals("PRIMARY")) {
+                                    rectanglesField[Y][X].setFill(Color.GREY);
+                                    rectanglesField[Y][X + 1].setFill(Color.GREY);
+                                    rectanglesField[Y][X + 2].setFill(Color.GREY);
+                                } else {
+                                    rectanglesField[Y][X].setFill(Color.GREY);
+                                    rectanglesField[Y + 1][X].setFill(Color.GREY);
+                                    rectanglesField[Y + 2][X].setFill(Color.GREY);
+                                }
+                                currentCruiserCount -= 1;
+                                labelCruiserCount.setText(currentCruiserCount + "");
                             }
-                            else if (currentType == Ship.ShipType.Destroyer) {
-                                rectanglesField[Y][X].setFill(Color.GREY);
-                                rectanglesField[Y+1][X].setFill(Color.GREY);
-                            } else if (currentType == Ship.ShipType.Cruiser) {
-                                rectanglesField[Y][X].setFill(Color.GREY);
-                                rectanglesField[Y+1][X].setFill(Color.GREY);
-                                rectanglesField[Y+2][X].setFill(Color.GREY);
-                            } else if (currentType == Ship.ShipType.Battleship) {
-                                rectanglesField[Y][X].setFill(Color.GREY);
-                                rectanglesField[Y+1][X].setFill(Color.GREY);
-                                rectanglesField[Y+2][X].setFill(Color.GREY);
-                                rectanglesField[Y+3][X].setFill(Color.GREY);
+                        } else if (currentType == Ship.ShipType.Battleship) {
+                            int currentBattleshipCount = Integer.parseInt(labelBattleshipCount.getText());
+                            if (currentBattleshipCount > 0) {
+                                if (event.getButton().toString().equals("PRIMARY")) {
+                                    rectanglesField[Y][X].setFill(Color.GREY);
+                                    rectanglesField[Y][X + 1].setFill(Color.GREY);
+                                    rectanglesField[Y][X + 2].setFill(Color.GREY);
+                                    rectanglesField[Y][X + 3].setFill(Color.GREY);
+                                } else {
+                                    rectanglesField[Y][X].setFill(Color.GREY);
+                                    rectanglesField[Y + 1][X].setFill(Color.GREY);
+                                    rectanglesField[Y + 2][X].setFill(Color.GREY);
+                                    rectanglesField[Y + 3][X].setFill(Color.GREY);
+                                }
+                                currentBattleshipCount -= 1;
+                                labelBattleshipCount.setText(currentBattleshipCount + "");
                             }
-                            field.addShip(new Ship(X, Y, false, currentType));
                         }
+                        //field.addShip(new Ship(X, Y, true, currentType));
+                        //field.addShip(new Ship(X, Y, false, currentType));
                     });
-                } else {
-                    System.out.println("Fake");
                 }
             }
         }
