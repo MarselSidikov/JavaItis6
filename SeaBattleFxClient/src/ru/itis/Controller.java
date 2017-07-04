@@ -2,6 +2,7 @@ package ru.itis;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -98,56 +99,42 @@ public class Controller {
                     rectanglesField[i][j] = rectangle;
                     // для текущего квадрата назначили событие при нажатии кнопкой мыши
                     rectangle.setOnMouseClicked(event -> {
-                        if (currentType == Ship.ShipType.Boat) {
+                        if (is(Ship.ShipType.Boat)) {
                             int currentBoatCount = Integer.parseInt(labelBoatCount.getText());
-                            if (currentBoatCount > 0) {
-                                rectanglesField[Y][X].setFill(Color.GREY);
+                            if (isCorrectShipsCount(currentBoatCount)) {
+                                drawBoat(X, Y);
                                 currentBoatCount -= 1;
                                 labelBoatCount.setText(currentBoatCount + "");
                             }
-                        } else if (currentType == Ship.ShipType.Destroyer) {
+                        } else if (is(Ship.ShipType.Destroyer)) {
                             int currentDestroyerCount = Integer.parseInt(labelDestroyerCount.getText());
-                            if (currentDestroyerCount > 0) {
-                                if (event.getButton().toString().equals("PRIMARY")) {
-                                    rectanglesField[Y][X].setFill(Color.GREY);
-                                    rectanglesField[Y][X + 1].setFill(Color.GREY);
+                            if (isCorrectShipsCount(currentDestroyerCount)) {
+                                if (isLeftButton(event)) {
+                                    drawDestroyerHorizontal(X, Y);
                                 } else {
-                                    rectanglesField[Y][X].setFill(Color.GREY);
-                                    rectanglesField[Y + 1][X].setFill(Color.GREY);
-
+                                    drawDestroyerVertical(X, Y);
                                 }
                                 currentDestroyerCount -= 1;
                                 labelDestroyerCount.setText(currentDestroyerCount + "");
                             }
-                        } else if (currentType == Ship.ShipType.Cruiser) {
+                        } else if (is(Ship.ShipType.Cruiser)) {
                             int currentCruiserCount = Integer.parseInt(labelCruiserCount.getText());
-
-                            if (currentCruiserCount > 0) {
-                                if (event.getButton().toString().equals("PRIMARY")) {
-                                    rectanglesField[Y][X].setFill(Color.GREY);
-                                    rectanglesField[Y][X + 1].setFill(Color.GREY);
-                                    rectanglesField[Y][X + 2].setFill(Color.GREY);
+                            if (isCorrectShipsCount(currentCruiserCount)) {
+                                if (isLeftButton(event)) {
+                                    drawCruiserHorizontal(X, Y);
                                 } else {
-                                    rectanglesField[Y][X].setFill(Color.GREY);
-                                    rectanglesField[Y + 1][X].setFill(Color.GREY);
-                                    rectanglesField[Y + 2][X].setFill(Color.GREY);
+                                    drawCruiserVertical(X, Y);
                                 }
                                 currentCruiserCount -= 1;
                                 labelCruiserCount.setText(currentCruiserCount + "");
                             }
-                        } else if (currentType == Ship.ShipType.Battleship) {
+                        } else if (is(Ship.ShipType.Battleship)) {
                             int currentBattleshipCount = Integer.parseInt(labelBattleshipCount.getText());
-                            if (currentBattleshipCount > 0) {
-                                if (event.getButton().toString().equals("PRIMARY")) {
-                                    rectanglesField[Y][X].setFill(Color.GREY);
-                                    rectanglesField[Y][X + 1].setFill(Color.GREY);
-                                    rectanglesField[Y][X + 2].setFill(Color.GREY);
-                                    rectanglesField[Y][X + 3].setFill(Color.GREY);
+                            if (isCorrectShipsCount(currentBattleshipCount)) {
+                                if (isLeftButton(event)) {
+                                    drawBattleshipHorizontal(X, Y);
                                 } else {
-                                    rectanglesField[Y][X].setFill(Color.GREY);
-                                    rectanglesField[Y + 1][X].setFill(Color.GREY);
-                                    rectanglesField[Y + 2][X].setFill(Color.GREY);
-                                    rectanglesField[Y + 3][X].setFill(Color.GREY);
+                                    drawBattleshipVertical(X, Y);
                                 }
                                 currentBattleshipCount -= 1;
                                 labelBattleshipCount.setText(currentBattleshipCount + "");
@@ -159,6 +146,57 @@ public class Controller {
                 }
             }
         }
+    }
+
+    private boolean is(Ship.ShipType type) {
+        return currentType == type;
+    }
+    private boolean isLeftButton(MouseEvent event) {
+        return event.getButton().toString().equals("PRIMARY");
+    }
+
+    private boolean isCorrectShipsCount(int currentBoatCount) {
+        return currentBoatCount > 0;
+    }
+
+    private void drawBattleshipVertical(int x, int y) {
+        rectanglesField[y][x].setFill(Color.GREY);
+        rectanglesField[y + 1][x].setFill(Color.GREY);
+        rectanglesField[y + 2][x].setFill(Color.GREY);
+        rectanglesField[y + 3][x].setFill(Color.GREY);
+    }
+
+    private void drawBattleshipHorizontal(int x, int y) {
+        rectanglesField[y][x].setFill(Color.GREY);
+        rectanglesField[y][x + 1].setFill(Color.GREY);
+        rectanglesField[y][x + 2].setFill(Color.GREY);
+        rectanglesField[y][x + 3].setFill(Color.GREY);
+    }
+
+    private void drawBoat(int x, int y) {
+        rectanglesField[y][x].setFill(Color.GREY);
+    }
+
+    private void drawDestroyerVertical(int x, int y) {
+        rectanglesField[y][x].setFill(Color.GREY);
+        rectanglesField[y + 1][x].setFill(Color.GREY);
+    }
+
+    private void drawDestroyerHorizontal(int x, int y) {
+        rectanglesField[y][x].setFill(Color.GREY);
+        rectanglesField[y][x + 1].setFill(Color.GREY);
+    }
+
+    private void drawCruiserVertical(int x, int y) {
+        rectanglesField[y][x].setFill(Color.GREY);
+        rectanglesField[y + 1][x].setFill(Color.GREY);
+        rectanglesField[y + 2][x].setFill(Color.GREY);
+    }
+
+    private void drawCruiserHorizontal(int x, int y) {
+        rectanglesField[y][x].setFill(Color.GREY);
+        rectanglesField[y][x + 1].setFill(Color.GREY);
+        rectanglesField[y][x + 2].setFill(Color.GREY);
     }
 
     private void drawEnemyField() {
