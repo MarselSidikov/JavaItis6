@@ -92,7 +92,7 @@ public class Controller {
                     rectanglesField[i][j] = rectangle;
                     // для текущего квадрата назначили событие при нажатии кнопкой мыши
                     rectangle.setOnMouseClicked(event -> {
-                        if (isCorrectPosition(X, Y, currentType.ordinal(), isLeftButton(event))) {
+                        if (isCorrectPosition(X, Y, currentType.ordinal() + 1, isLeftButton(event))) {
                             switch (currentType) {
                                 case Boat: {
                                     int currentBoatCount = Integer.parseInt(labelBoatCount.getText());
@@ -101,6 +101,7 @@ public class Controller {
                                         currentBoatCount -= 1;
                                         labelBoatCount.setText(currentBoatCount + "");
                                     }
+                                    break;
                                 }
                                 case Destroyer: {
                                     int currentDestroyerCount = Integer.parseInt(labelDestroyerCount.getText());
@@ -113,6 +114,7 @@ public class Controller {
                                         currentDestroyerCount -= 1;
                                         labelDestroyerCount.setText(currentDestroyerCount + "");
                                     }
+                                    break;
                                 }
                                 case Cruiser: {
                                     int currentCruiserCount = Integer.parseInt(labelCruiserCount.getText());
@@ -125,6 +127,7 @@ public class Controller {
                                         currentCruiserCount -= 1;
                                         labelCruiserCount.setText(currentCruiserCount + "");
                                     }
+                                    break;
                                 }
                                 case Battleship: {
                                     int currentBattleshipCount = Integer.parseInt(labelBattleshipCount.getText());
@@ -137,6 +140,7 @@ public class Controller {
                                         currentBattleshipCount -= 1;
                                         labelBattleshipCount.setText(currentBattleshipCount + "");
                                     }
+                                    break;
                                 }
                             }
                         }
@@ -150,18 +154,22 @@ public class Controller {
 
     private boolean isCorrectPosition(int x, int y, int shipLength, boolean isHorizontal) {
         if (isHorizontal) {
-            for (int i = x - 1; i < shipLength + 1; i++) {
-                for (int j = y - 1; j < y + 1; j++) {
-                    if (rectanglesField[i][j] != null) {
-                        return false;
+            for (int i = y - 1; i < y + 2; i++) {
+                for (int j = x - 1; j < x + shipLength + 1; j++) {
+                    if (i < 10 && i >= 0 && j < 10 && j >= 0) {
+                        if (!rectanglesField[i][j].getFill().toString().equals("0x00ffffff")) {
+                            return false;
+                        }
                     }
                 }
             }
         } else {
-            for (int j = y - 1; j < y + 1; j++) {
-                for (int i = x - 1; i < shipLength + 1; i++) {
-                    if (rectanglesField[j][i] != null) {
-                        return false;
+            for (int j = x - 1; j < x + shipLength + 1; j++) {
+                for (int i = y - 1; i < y + 2; i++) {
+                    if (i < 10 && i >= 0 && j < 10 && j >= 0) {
+                        if (!rectanglesField[j][i].getFill().toString().equals("0x00ffffff")) {
+                            return false;
+                        }
                     }
                 }
             }
