@@ -1,15 +1,32 @@
 package ru.itis;
 
+import javafx.application.Platform;
+import javafx.concurrent.Service;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import ru.itis.game.PlayingField;
+import org.springframework.web.client.RestTemplate;
 import ru.itis.game.Ship;
 
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
 public class Controller {
+
+    private int player = 1;
+
+    public Controller(int player) {
+        this.player = player;
+    }
+
+    public Controller() {
+        this(0);
+    }
 
     @FXML
     private AnchorPane pane;
@@ -38,16 +55,16 @@ public class Controller {
     @FXML
     private Label labelBoatCount;
 
-    private PlayingField field;
-
     private Rectangle rectanglesField[][];
-
-    private PlayingField enemyField;
 
     private Ship.ShipType currentType;
 
+    private RestTemplate template;
+
     @FXML
     public void initialize() {
+        template = new RestTemplate();
+
         rectanglesField = new Rectangle[10][10];
         boatRect.setOnMouseClicked(event -> {
             currentType = Ship.ShipType.Boat;
@@ -65,8 +82,6 @@ public class Controller {
             currentType = Ship.ShipType.Battleship;
         });
 
-        field = new PlayingField();
-
         drawPlayerField();
         drawEnemyField();
 
@@ -79,11 +94,11 @@ public class Controller {
         int y = 40;
         // бежим по всем квардратам поля
         // по строкам
-        for (int i = 0; i < field.getField().length; i++) {
+        for (int i = 0; i < 10; i++) {
             // по столбцам
-            for (int j = 0; j < field.getField().length; j++) {
+            for (int j = 0; j < 10; j++) {
                 // если корабля в той позиции нет
-                if (field.getField()[i][j] == null) {
+                if (rectanglesField[i][j] == null) {
                     Rectangle rectangle = createRectangle(x, y, i, j);
                     // запомнили координаты квадрата
                     final int X = j;
@@ -144,8 +159,6 @@ public class Controller {
                                 }
                             }
                         }
-                        //field.addShip(new Ship(X, Y, true, currentType));
-                        //field.addShip(new Ship(X, Y, false, currentType));
                     });
                 }
             }
@@ -185,7 +198,6 @@ public class Controller {
         }
         return false;
     }
-
 
     private Rectangle createRectangle(int x, int y, int i, int j) {
         // создаем в указанной позиции голубой квадрат
@@ -250,14 +262,43 @@ public class Controller {
     private void drawEnemyField() {
         int x = 40;
         int y = 40;
-        for (int i = 0; i < field.getField().length; i++) {
-            for (int j = 0; j < field.getField().length; j++) {
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
                 Rectangle rectangle = new Rectangle(y * j + 440, x * i, 40, 40);
                 rectangle.setStroke(Color.BLACK);
                 rectangle.setFill(Color.AQUA);
+                final int X = j;
+                final int Y = i;
                 rectangle.setOnMouseClicked(event -> {
-                    rectangle.setFill(Color.RED);
+                    // игрок делает выстрел
+                    template
+                            .getForObject("http://localhost:8080/battle/shot" +
+                                    "?shotX=" + X + "&shotY=" + Y + "&player=" + player, Object.class);
+                    // игрок получает информацию о статусе своего выстрела
+                    String status = template.getForObject("http://localhost:8080/battle/shot/status/info?player=2", String.class);
+                    if (status.equals("MISS")) {
+                        rectangle.setFill(Color.CHOCOLATE);
+                    } else {
+                        rectangle.setFill(Color.RED);
+                    }
+                    // теперь игрок ждет выстрела соперника
+                    String shot = template.
+                            getForObject("http://localhost:8080/battle/shot/info?player=" + player, String.class);
+                    String splitShot[] = shot.split(" ");
+                    int Xc = Integer.parseInt(splitShot[0]);
+                    int Yc = Integer.parseInt(splitShot[1]);
+                    rectanglesField[Yc][Xc].setFill(Color.RED);
+                    // игрок сообщает о статусе выстрела соперника
+                    String myStatus;
+                    if (rectanglesField[Yc][Xc].getFill().toString().equals("0x00ffffff")) {
+                        myStatus = "WOUND";
+                    } else {
+                        myStatus = "MISS";
+                    }
+                    template.
+                            getForObject("http://localhost:8080/battle/shot/status?player=" + player + "&status=" + myStatus, String.class);
                 });
+
                 pane.getChildren().add(rectangle);
             }
         }
