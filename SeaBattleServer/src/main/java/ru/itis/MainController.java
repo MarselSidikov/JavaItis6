@@ -83,9 +83,9 @@ public class MainController {
     public void sendStatus(@RequestParam("status") String status,
                              @RequestParam("player") int player) {
         if (player == 1) {
-            statusPlayer1 = status;
-        } else {
             statusPlayer2 = status;
+        } else {
+            statusPlayer1 = status;
         }
     }
 }

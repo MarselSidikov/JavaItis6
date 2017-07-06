@@ -19,14 +19,7 @@ import java.util.concurrent.TimeUnit;
 public class Controller {
 
     private int player = 1;
-
-    public Controller(int player) {
-        this.player = player;
-    }
-
-    public Controller() {
-        this(0);
-    }
+    private String host = "http://localhost:8080";
 
     @FXML
     private AnchorPane pane;
@@ -82,8 +75,8 @@ public class Controller {
             currentType = Ship.ShipType.Battleship;
         });
 
-        drawPlayerField();
         drawEnemyField();
+        drawPlayerField();
 
     }
 
@@ -262,6 +255,7 @@ public class Controller {
     private void drawEnemyField() {
         int x = 40;
         int y = 40;
+
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
                 Rectangle rectangle = new Rectangle(y * j + 440, x * i, 40, 40);
@@ -269,38 +263,58 @@ public class Controller {
                 rectangle.setFill(Color.AQUA);
                 final int X = j;
                 final int Y = i;
-                rectangle.setOnMouseClicked(event -> {
+                rectangle.setOnMouseClicked((MouseEvent event) -> {
                     // игрок делает выстрел
                     template
-                            .getForObject("http://localhost:8080/battle/shot" +
+                            .getForObject(host + "/battle/shot" +
                                     "?shotX=" + X + "&shotY=" + Y + "&player=" + player, Object.class);
                     // игрок получает информацию о статусе своего выстрела
-                    String status = template.getForObject("http://localhost:8080/battle/shot/status/info?player=2", String.class);
+                    String status = template.getForObject(host + "/battle/shot/status/info?player=" + player,
+                            String.class);
                     if (status.equals("MISS")) {
                         rectangle.setFill(Color.CHOCOLATE);
                     } else {
                         rectangle.setFill(Color.RED);
                     }
-                    // теперь игрок ждет выстрела соперника
-                    String shot = template.
-                            getForObject("http://localhost:8080/battle/shot/info?player=" + player, String.class);
-                    String splitShot[] = shot.split(" ");
-                    int Xc = Integer.parseInt(splitShot[0]);
-                    int Yc = Integer.parseInt(splitShot[1]);
-                    rectanglesField[Yc][Xc].setFill(Color.RED);
-                    // игрок сообщает о статусе выстрела соперника
-                    String myStatus;
-                    if (rectanglesField[Yc][Xc].getFill().toString().equals("0x00ffffff")) {
-                        myStatus = "WOUND";
-                    } else {
-                        myStatus = "MISS";
-                    }
-                    template.
-                            getForObject("http://localhost:8080/battle/shot/status?player=" + player + "&status=" + myStatus, String.class);
-                });
 
+                    waitShot();
+                });
                 pane.getChildren().add(rectangle);
             }
         }
+        // ждем выстрел соперника
+//        if (player == 2) {
+//            waitShot();
+//        }
+    }
+
+    private void waitShot() {
+        Task<Void> task = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                System.out.println("wait");
+                // теперь игрок ждет выстрела соперника
+                String shot = template.
+                        getForObject(host + "/battle/shot/info?player=" + player, String.class);
+                String splitShot[] = shot.split(" ");
+                int Xc = Integer.parseInt(splitShot[0]);
+                int Yc = Integer.parseInt(splitShot[1]);
+                rectanglesField[Yc][Xc].setFill(Color.RED);
+                // игрок сообщает о статусе выстрела соперника
+                String myStatus;
+                System.out.println("waited");
+                if (rectanglesField[Yc][Xc].getFill().toString().equals("0x00ffffff")) {
+                    myStatus = "WOUND";
+                } else {
+                    myStatus = "MISS";
+                }
+                template.
+                        getForObject(host + "/battle/shot/status?player=" + player + "&status=" + myStatus, String.class);
+                return null;
+            }
+        };
+        Thread thread = new Thread(task);
+        thread.setDaemon(true);
+        thread.start();
     }
 }
