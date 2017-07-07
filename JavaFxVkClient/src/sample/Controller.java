@@ -1,10 +1,10 @@
 package sample;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TitledPane;
+import javafx.geometry.Orientation;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
@@ -51,8 +51,8 @@ public class Controller {
             double lastY = 0;
             // контейнер панелек
             VBox vBox = new VBox();
-            // прокручиваемая панель, внутри нее vBox
-            ScrollPane scrollPane = new ScrollPane(vBox);
+            // прокручиваемая панель
+            ScrollPane scrollPane = new ScrollPane();
             // пробегаем по всем друзьям
             for (Friend friend : friends) {
                 // для конкретного друга
@@ -75,7 +75,10 @@ public class Controller {
 
             }
             // настроили scroll
-            scrollPane.setFitToHeight(true);
+            scrollPane.setContent(vBox);
+            // максимальная высота
+            scrollPane.setPrefHeight(500);
+            scrollPane.setFitToWidth(false);
             // добавили scroll на основную панель
             pane.getChildren().add(scrollPane);
         });
