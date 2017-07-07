@@ -3,6 +3,10 @@ package ru.itis.vk.models;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Friend {
+
+    @JsonProperty("uid")
+    private int id;
+
     @JsonProperty("first_name")
     private String firstName;
 
@@ -13,6 +17,14 @@ public class Friend {
     private String photo;
 
     public Friend() {
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getFirstName() {
