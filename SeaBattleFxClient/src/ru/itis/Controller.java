@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit;
 
 public class Controller {
 
-    private int player = 1;
+    private int player = 2;
     private String host = "http://localhost:8080";
 
     @FXML

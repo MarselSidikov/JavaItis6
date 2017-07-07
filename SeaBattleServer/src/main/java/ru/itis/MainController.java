@@ -25,6 +25,7 @@ public class MainController {
     public void shot(@RequestParam("shotX") int X,
                        @RequestParam("shotY") int Y,
                        @RequestParam("player") int player) {
+        System.out.println("battle/shot " + player);
         if (player == 2) {
             shotXPlayer1 = X;
             shotYPlayer1 = Y;
@@ -37,6 +38,7 @@ public class MainController {
     // игрок player получает информацию о том, куда в него выстрелили
     @GetMapping("battle/shot/info")
     public String getShotInfo(@RequestParam("player") int player) {
+        System.out.println("battle/shot/info " + player);
         while (true) {
             if (player == 1) {
                 if (shotXPlayer1 != null && shotYPlayer1 != null) {
@@ -61,6 +63,7 @@ public class MainController {
     // игрок player получает информацию о статусе своего выстрела
     @GetMapping("/battle/shot/status/info")
     public String getStatus(@RequestParam("player") int player) {
+        System.out.println("battle/shot/status/info " + player);
         while (true) {
             if (player == 1) {
                 if (statusPlayer1 != null) {
@@ -82,6 +85,7 @@ public class MainController {
     @GetMapping("/battle/shot/status")
     public void sendStatus(@RequestParam("status") String status,
                              @RequestParam("player") int player) {
+        System.out.println("battle/shot/status  " + player + " " + status);
         if (player == 1) {
             statusPlayer2 = status;
         } else {
