@@ -1,8 +1,12 @@
 package ru.itis;
 
+// узел связного списка
 public class Node {
+    // ключ - какая-то буква
     private char key;
+    // слово
     private String value;
+    // указатель на следующий
     private Node next;
 
     public Node(char key, String value) {
