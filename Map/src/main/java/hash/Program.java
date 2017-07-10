@@ -13,7 +13,9 @@ public class Program {
         map.put("Leonid", "Solovyev");
         map.put("Yan", "Bashkirtsev");
         map.put("Svyatoslav", "Gorodilov");
+        map.put("Adel", "Gilmeev");
 
+        map.show();
         System.out.println(map.get("Yan"));
         int i = 0;
     }

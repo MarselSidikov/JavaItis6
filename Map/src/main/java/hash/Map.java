@@ -1,7 +1,9 @@
 package hash;
 
+import java.util.HashMap;
+
 public class Map {
-    private final int MAX_ARRAYS_SIZE = 10;
+    private final int MAX_ARRAYS_SIZE = 16;
     private Node nodes[];
 
     private int count;
@@ -12,19 +14,30 @@ public class Map {
     }
 
     public void put(String key, String value) {
-        int position = hash(key) % MAX_ARRAYS_SIZE;
+        int position = (MAX_ARRAYS_SIZE - 1) & hash(key);
         // если в корзинке с номером position ничего нет
         Node newNode = new Node(key, value);
         if (nodes[position] == null) {
             nodes[position] = newNode;
         } else {
-            newNode.setNext(nodes[position]);
-            nodes[position] = newNode;
+            Node currentNode = nodes[position];
+            while (currentNode.getNext() != null) {
+                if (currentNode.getKey().equals(key)) {
+                    currentNode.setValue(value);
+                    return;
+                }
+                currentNode = currentNode.getNext();
+            }
+            if (currentNode.getKey().equals(key)) {
+                currentNode.setValue(value);
+                return;
+            }
+            currentNode.setNext(newNode);
         }
     }
 
     public String get(String key) {
-        int position = hash(key) % MAX_ARRAYS_SIZE;
+        int position = (MAX_ARRAYS_SIZE - 1) & hash(key);
         if (nodes[position] == null) {
             return null;
         } else {
@@ -48,4 +61,18 @@ public class Map {
         return sum;
     }
 
+    public void show() {
+        for (int i = 0; i < MAX_ARRAYS_SIZE; i++) {
+            System.out.print("[" + i + "]");
+            if (nodes[i] == null) {
+            } else {
+                Node currentNode = nodes[i];
+                while (currentNode != null) {
+                    System.out.print(" -> (" + currentNode.getKey() + "," + currentNode.getValue() + ")" );
+                    currentNode = currentNode.getNext();
+                }
+            }
+            System.out.println();
+        }
+    }
 }
