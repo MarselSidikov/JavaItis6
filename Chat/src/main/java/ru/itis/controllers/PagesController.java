@@ -15,9 +15,12 @@ import java.util.List;
 public class PagesController {
 
     @GetMapping("/index")
-    public String index(@ModelAttribute("model") ModelMap model) throws Exception {
+    public String index(@RequestParam(required = false, name = "sort") String by, @ModelAttribute("model") ModelMap model) throws Exception {
         List<Student> students = getStudents();
         model.addAttribute("students", students);
+        if (by != null && by.equals("age")) {
+            sort(students);
+        }
         return "index";
     }
 
@@ -32,6 +35,7 @@ public class PagesController {
         writer.close();
 
         List<Student> students = getStudents();
+
         model.addAttribute("students", students);
         return "index";
     }
@@ -52,5 +56,20 @@ public class PagesController {
             currentLine = reader.readLine();
         }
         return students;
+    }
+
+    public void sort(List<Student> students) {
+        for (int i = students.size() - 1; i >= 0; i--) {
+            for (int j = 0; j < i; j++) {
+                if (students.get(j).getAge() > students.get(j+1).getAge()) {
+                    // temp = students[j]
+                    Student temp = students.get(j);
+                    // students[j] = students[j+1]
+                    students.set(j, students.get(j+1));
+                    // students[j+1] = temp
+                    students.set(j+1, temp);
+                }
+            }
+        }
     }
 }

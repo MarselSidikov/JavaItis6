@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <style type="text/css">
         @import url(https://fonts.googleapis.com/css?family=Roboto:400,500,700,300,100);
-
+        A {
+            color: white;
+            text-decoration: none; /* Убирает подчеркивание для ссылок */
+        }
         body {
             background-color: #3e94ec;
             font-family: "Roboto", helvetica, arial, sans-serif;
@@ -72,6 +75,7 @@
         }
 
         th {
+            cursor: pointer;
             color:#D5DDE5;
             background:#1b1e24;
             border-bottom:4px solid #9ea7af;
@@ -147,6 +151,11 @@
             border-right: 0px;
         }
     </style>
+    <script type="text/javascript">
+        function redirectToAgeSort() {
+            window.location = "localhost:8080/index?sort=age";
+        }
+    </script>
 </head>
 <body>
 <div align="center">
@@ -164,7 +173,7 @@
     <table class="table-fill">
         <tr> <#--> Table row <-->
             <th>Имя</th> <#--> Table header <-->
-            <th>Возраст</th>
+            <th><a href="index?sort=age"/>Возраст</href></th>
             <th>Класс</th>
         </tr>
     <#list model.students as student>
@@ -176,5 +185,4 @@
     </#list>
     </table>
 </div>
-
 </body>
