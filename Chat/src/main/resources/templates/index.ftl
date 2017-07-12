@@ -3,56 +3,170 @@
 <head>
     <meta charset="UTF-8">
     <style type="text/css">
-        table {
-            font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
-            font-size: 14px;
-            border-radius: 10px;
-            border-spacing: 0;
-            text-align: center;
+        @import url(https://fonts.googleapis.com/css?family=Roboto:400,500,700,300,100);
+
+        body {
+            background-color: #3e94ec;
+            font-family: "Roboto", helvetica, arial, sans-serif;
+            font-size: 16px;
+            font-weight: 400;
+            text-rendering: optimizeLegibility;
         }
-        th {
-            background: #BCEBDD;
+
+        div.table-title {
+            display: block;
+            margin: auto;
+            max-width: 600px;
+            padding:5px;
+            width: 100%;
+        }
+
+        .table-title h3 {
+            color: #fafafa;
+            font-size: 30px;
+            font-weight: 400;
+            font-style:normal;
+            font-family: "Roboto", helvetica, arial, sans-serif;
+            text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
+            text-transform:uppercase;
+        }
+
+
+        /*** Table Styles **/
+
+        .table-fill {
+            background: white;
+            border-radius:3px;
+            border-collapse: collapse;
+            height: 320px;
+            margin: auto;
+            max-width: 600px;
+            padding:5px;
+            width: 100%;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+            animation: float 5s infinite;
+        }
+        input[type=text], select {
+            width: 25%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        input[type=submit] {
+            width: 25%;
+            background-color: #343a45;
             color: white;
-            text-shadow: 0 1px 1px #2D2020;
-            padding: 10px 20px;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
         }
-        th, td {
-            border-style: solid;
-            border-width: 0 1px 1px 0;
-            border-color: white;
+
+        input[type=submit]:hover {
+            background-color: #9ea7af;
         }
-        th:first-child, td:first-child {
-            text-align: left;
+
+        th {
+            color:#D5DDE5;
+            background:#1b1e24;
+            border-bottom:4px solid #9ea7af;
+            border-right: 1px solid #343a45;
+            font-size:23px;
+            font-weight: 100;
+            padding:24px;
+            text-align:left;
+            text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+            vertical-align:middle;
         }
+
         th:first-child {
-            border-top-left-radius: 10px;
+            border-top-left-radius:3px;
         }
+
         th:last-child {
-            border-top-right-radius: 10px;
-            border-right: none;
+            border-top-right-radius:3px;
+            border-right:none;
+        }
+
+        tr {
+            border-top: 1px solid #C1C3D1;
+            border-bottom-: 1px solid #C1C3D1;
+            color:#666B85;
+            font-size:16px;
+            font-weight:normal;
+            text-shadow: 0 1px 1px rgba(256, 256, 256, 0.1);
+        }
+
+        tr:hover td {
+            background:#4E5066;
+            color:#FFFFFF;
+            border-top: 1px solid #22262e;
+            border-bottom: 1px solid #22262e;
+        }
+
+        tr:first-child {
+            border-top:none;
+        }
+
+        tr:last-child {
+            border-bottom:none;
+        }
+
+        tr:nth-child(odd) td {
+            background:#EBEBEB;
+        }
+
+        tr:nth-child(odd):hover td {
+            background:#4E5066;
+        }
+
+        tr:last-child td:first-child {
+            border-bottom-left-radius:3px;
+        }
+
+        tr:last-child td:last-child {
+            border-bottom-right-radius:3px;
         }
         td {
-            padding: 10px 20px;
-            background: #F8E391;
+            background:#FFFFFF;
+            padding:20px;
+            text-align:left;
+            vertical-align:middle;
+            font-weight:300;
+            font-size:18px;
+            text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
+            border-right: 1px solid #C1C3D1;
         }
-        tr:last-child td:first-child {
-            border-radius: 0 0 0 10px;
-        }
-        tr:last-child td:last-child {
-            border-radius: 0 0 10px 0;
-        }
-        tr td:last-child {
-            border-right: none;
+
+        td:last-child {
+            border-right: 0px;
         }
     </style>
 </head>
 <body>
-<table>
-    <tr> <#--> Table row <-->
-        <th>Имя</th> <#--> Table header <-->
-        <th>Возраст</th>
-        <th>Класс</th>
-    </tr>
+<div align="center">
+    <form method="get" action="/students/add">
+        <input type="text" name="name" placeholder="Имя...">
+        <br>
+        <input type="text" name="age" placeholder="Возраст...">
+        <br>
+        <input type="text" name="category" placeholder="Класс...">
+        <br>
+        <input type="submit" value="Готово">
+    </form>
+</div>
+<div>
+    <table class="table-fill">
+        <tr> <#--> Table row <-->
+            <th>Имя</th> <#--> Table header <-->
+            <th>Возраст</th>
+            <th>Класс</th>
+        </tr>
     <#list model.students as student>
         <tr>
             <td>${student.name}</td> <#--> Обычная строка <-->
@@ -60,5 +174,7 @@
             <td>${student.category}</td> <#--> Обычная строка <-->
         </tr>
     </#list>
-</table>
+    </table>
+</div>
+
 </body>
