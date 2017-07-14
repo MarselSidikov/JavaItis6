@@ -30,7 +30,7 @@ public class Main {
             RestTemplate template = new RestTemplate();
             String message = scanner.nextLine();
             Message clientMessage = new Message(message);
-            template.postForLocation("http://localhost:8080/messages", clientMessage);
+            template.postForLocation("http://10.17.1.53:8080/messages", clientMessage);
         }
 
 
